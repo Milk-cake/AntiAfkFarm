@@ -1,0 +1,10 @@
+isBlackList: true
+
+#defaultlist:
+#  - zombie
+#  - creeper
+#  - skeleton
+list:
+  - zombie
+  - creeper
+  - skeleton

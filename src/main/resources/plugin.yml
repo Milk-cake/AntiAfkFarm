@@ -1,0 +1,5 @@
+name: AntiAfkFarm
+version: '${project.version}'
+main: icu.redge.antiafkfarm.Antiafkfarm
+api-version: '1.20'
+author: Re_Cake
