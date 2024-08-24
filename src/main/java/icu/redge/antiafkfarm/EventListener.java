@@ -19,16 +19,19 @@ import java.util.*;
 
 public class EventListener implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public final void onMobDeath(EntityDeathEvent e) {
+    private static List<String> entityList = null;
+    private static boolean isBlackList = Antiafkfarm.instance.getConfig().getBoolean("isBlackList", true);
+    public EventListener(){
+        getEntityList();
+    }
 
+    private void getEntityList(){
         FileConfiguration config = Antiafkfarm.instance.getConfig();
-
         List<String> entityList = config.getStringList("list");
-        Set<String> lowerCaseEntitySet = new HashSet<>();
         for (String entity : entityList) {
-            lowerCaseEntitySet.add(entity.toLowerCase());
+            this.entityList.add(entity.toLowerCase());
         }
+    }
 
         boolean isBlackListMode = config.getBoolean("isBlackList", true);
         String value = e.getEntity().toString().toLowerCase();
@@ -58,5 +61,12 @@ public class EventListener implements Listener {
         else {
             //System.out.println("Blacklist mode is disabled!");
         }
+
+    private static boolean isKillerPlayer(EntityDeathEvent e){
+        return e.getEntity().getKiller() instanceof Player;
+    }
+
+    private static boolean isEntityNameInList(EntityDeathEvent e){
+        return entityList.contains(e.getEntity().getType().name().toLowerCase());
     }
 }
