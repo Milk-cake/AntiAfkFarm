@@ -33,33 +33,11 @@ public class EventListener implements Listener {
         }
     }
 
-        boolean isBlackListMode = config.getBoolean("isBlackList", true);
-        String value = e.getEntity().toString().toLowerCase();
-
-        String entityName = e.getEntity().getType().name().toLowerCase();
-        boolean isEntityInList = lowerCaseEntitySet.contains(entityName);
-
-        boolean isPlayerKilled = e.getEntity().getKiller() instanceof org.bukkit.entity.Player;
-
-        if(isBlackListMode) {
-            //System.out.println("AntiAfkFarm TESTING! isBlackListMode");
-            if(isEntityInList) {
-                //System.out.println("AntiAfkFarm TESTING! isEntityInList");
-                if(isPlayerKilled) {
-                    //System.out.println("AntiAfkFarm TESTING! isPlayerkilled");
-                }
-                else {
-                    //System.out.println("AntiAfkFarm TESTING! Not killed by player!");
-                    e.setDroppedExp(0);
-                    e.getDrops().clear();
-                }
-            }
-            else {
-                //System.out.println("Entity not in list!");
-            }
-        }
-        else {
-            //System.out.println("Blacklist mode is disabled!");
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public final void onMobDeath(EntityDeathEvent e) {
+        if(!isKillerPlayer(e) || !isBlackList || !(isEntityNameInList(e))) return; // Verifies if even is relevant to plugin
+        e.setDroppedExp(0);
+        e.getDrops().clear();
         }
 
     private static boolean isKillerPlayer(EntityDeathEvent e){
